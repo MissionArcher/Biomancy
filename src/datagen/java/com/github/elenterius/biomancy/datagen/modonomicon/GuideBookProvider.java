@@ -153,15 +153,18 @@ public class GuideBookProvider extends AbstractBookProvider {
 
 		helper.page("flesh_blob");
 		BookEntityPageModel fleshBlobPage = BookEntityPageModel.builder()
-				.withText(helper.pageText())
 				.withEntityId(ModEntityTypes.FLESH_BLOB.getId().toString())
 				.withScale(1f)
 				.build();
-		lang.add(helper.pageText(), """
-  A regular Flesh Blob is formed with just typical raw meat and healing agents.
-  \\
-  Has no redeeming qualities, but makes for a good house pet.""");
 
+		helper.page("flesh_blob_page");
+		BookTextPageModel fleshBlobText = BookTextPageModel.builder()
+				.withText(helper.pageText())
+				.build();
+		lang.add(helper.pageText(), """
+				A regular Flesh Blob is formed with just typical raw meat and healing agents.
+				\\
+				Has no redeeming qualities, but makes for a good house pet.""");
 		helper.page("hungry_flesh_blob");
 		BookEntityPageModel hungryFleshBlobPage = BookEntityPageModel.builder()
 				.withEntityId(ModEntityTypes.HUNGRY_FLESH_BLOB.getId().toString())
@@ -183,7 +186,7 @@ public class GuideBookProvider extends AbstractBookProvider {
 				.withDescription(helper.entryDescription())
 				.withIcon("biomancy:living_flesh")
 				.withLocation(entryHelper.get(location))
-				.withPages(livingFleshSpotlight, fleshBlobPage, fleshBlobText, hungryFleshBlobPage, hungryFleshBlobText);
+				.withPages(fleshBlobPage, fleshBlobText, hungryFleshBlobPage, hungryFleshBlobText, livingFleshSpotlight);
 		lang.add(helper.entryName(), "Flesh Blobs");
 		lang.add(helper.entryDescription(), "Bouncy lil guys");
 
