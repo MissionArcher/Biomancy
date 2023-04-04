@@ -1,10 +1,11 @@
 package com.github.elenterius.biomancy.world.item;
 
+import com.github.elenterius.biomancy.chat.ComponentUtil;
 import com.github.elenterius.biomancy.client.util.ClientTextUtil;
+import com.github.elenterius.biomancy.init.ModCapabilities;
 import com.github.elenterius.biomancy.tooltip.HrTooltipComponent;
-import com.github.elenterius.biomancy.tooltip.PlaceholderComponent;
 import com.github.elenterius.biomancy.tooltip.StorageSacTooltipComponent;
-import com.github.elenterius.biomancy.world.block.entity.StorageSacBlockEntity;
+import com.github.elenterius.biomancy.world.block.storagesac.StorageSacBlockEntity;
 import com.github.elenterius.biomancy.world.inventory.ItemStackInventory;
 import com.github.elenterius.biomancy.world.inventory.itemhandler.EnhancedItemHandler;
 import net.minecraft.core.Direction;
@@ -26,7 +27,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -40,7 +40,7 @@ public class StorageSacBlockItem extends BlockItem implements ICustomTooltip {
 	}
 
 	public static Optional<EnhancedItemHandler> getItemHandler(ItemStack stack) {
-		return stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).map(EnhancedItemHandler::new);
+		return stack.getCapability(ModCapabilities.ITEM_HANDLER).map(EnhancedItemHandler::new);
 	}
 
 	@Nullable
@@ -112,8 +112,8 @@ public class StorageSacBlockItem extends BlockItem implements ICustomTooltip {
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
 		super.appendHoverText(stack, level, tooltip, flag);
-		tooltip.add(ClientTextUtil.getItemInfoTooltip(stack.getItem()));
-		tooltip.add(new PlaceholderComponent(new StorageSacTooltipComponent(getItemHandler(stack).orElse(null))));
+		tooltip.add(ClientTextUtil.getItemInfoTooltip(stack));
+		tooltip.add(ComponentUtil.tooltip(new StorageSacTooltipComponent(getItemHandler(stack).orElse(null))));
 	}
 
 	@Override
@@ -144,7 +144,7 @@ public class StorageSacBlockItem extends BlockItem implements ICustomTooltip {
 		@Nonnull
 		@Override
 		public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing) {
-			return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(capability, itemHandler.getOptionalItemHandler());
+			return ModCapabilities.ITEM_HANDLER.orEmpty(capability, itemHandler.getOptionalItemHandler());
 		}
 
 	}
